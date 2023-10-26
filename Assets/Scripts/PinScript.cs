@@ -9,6 +9,8 @@ public class PinScript : MonoBehaviour
     private Vector3 initialScale;
     private Rigidbody rb;
 
+    [SerializeField] bool touchedGround = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +27,17 @@ public class PinScript : MonoBehaviour
         transform.localScale = initialScale;
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero; // Reset angular velocity
-        print (transform.position);
-        print(initialPosition);
+    }
+    public bool isGrounded()
+    {
+        return touchedGround;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            touchedGround = true;
+        }
     }
 }

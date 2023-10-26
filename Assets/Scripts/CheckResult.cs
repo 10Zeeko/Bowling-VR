@@ -20,16 +20,30 @@ public class CheckResult : MonoBehaviour
             ballThrows++;
             other.gameObject.GetComponent<PinScript>().restartPin();
             if (ballThrows >= 2) {
-                ballThrows = 0;
                 for (int i = 0;i < allPins.Length;i++)
                 {
                     allPins[i].GetComponent<PinScript>().restartPin();
                 }
+                ballThrows = 0;
             }
         }
         else if (!other.CompareTag("Pin"))
         {
             other.transform.position = respawnPos;
         }
+    }
+    private void checkScore()
+    {
+        bool strike = true;
+        int groundedPins = 0;
+        for (int i = 0; i < allPins.Length; i++)
+        {
+            if(!allPins[i].GetComponent<PinScript>().isGrounded())
+            {
+                strike = false;
+            }
+            groundedPins++;
+        }
+
     }
 }
