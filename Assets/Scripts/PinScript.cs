@@ -22,11 +22,13 @@ public class PinScript : MonoBehaviour
 
     public void restartPin()
     {
+        touchedGround = false;
         transform.position = initialPosition;
         transform.rotation = initialRotation;
         transform.localScale = initialScale;
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero; // Reset angular velocity
+        gameObject.SetActive(true);
     }
     public bool isGrounded()
     {
