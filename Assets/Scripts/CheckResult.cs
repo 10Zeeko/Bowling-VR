@@ -20,11 +20,19 @@ public class CheckResult : MonoBehaviour
     private TextMeshProUGUI scoreUITwo;
     [SerializeField]
     private TextMeshProUGUI scoreUITotal;
+    [SerializeField]
+    private ParticleSystem P_strike;
+    [SerializeField]
+    private ParticleSystem P_spare;
+
+    private AudioSource W_source;
 
     private void Start()
     {
         allPins = GameObject.FindGameObjectsWithTag("Pin");
         round.text = "Round: " + roundNumber;
+        W_source = new AudioSource();
+        W_source = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -53,8 +61,7 @@ public class CheckResult : MonoBehaviour
                 fallenPins++;
             }
         }
-
-        if (fallenPins == 10) // Strike
+        if (fallenPins == 10 && ballThrows == 1) // Strike
         {
             strikeCount++;
             if (strikeCount == 1) // Single Strike
@@ -69,13 +76,18 @@ public class CheckResult : MonoBehaviour
             {
                 score += 30;
             }
+            P_strike.Play();
+            W_source.Play();
             restartGameZone(true);
         }
+
         else if (ballThrows == 2) // Spare or normal throw
         {
             if (fallenPins == 10) // Spare
             {
                 score += 10 + fallenPins;
+                W_source.Play();
+                P_spare.Play();
             }
             else // Normal throw
             {
